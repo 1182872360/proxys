@@ -1,25 +1,19 @@
-# For more information, please refer to https://aka.ms/vscode-docker-python
 FROM python:3.10-alpine
 
-EXPOSE 80
-
-# Keeps Python from generating .pyc files in the container
-ENV PYTHONDONTWRITEBYTECODE=1
-
-# Turns off buffering for easier container logging
-ENV PYTHONUNBUFFERED=1
-
-# Install pip requirements
-COPY requirements.txt .
-RUN python -m pip install -r requirements.txt
+ENV TZ Asia/Shanghai
 
 WORKDIR /app
-COPY . /app
 
-# Creates a non-root user with an explicit UID and adds permission to access the /app folder
-# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
-USER appuser
+COPY . ./
 
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "proxy:app"]
+COPY ./heroku/nginx.template.conf ./
+
+RUN set -eux \
+    && apk update \
+    && apk add --no-cache tzdata bash nginx gettext
+
+COPY ./heroku/startup.sh /
+RUN chmod +x /startup.sh
+
+# https://devcenter.heroku.com/articles/container-registry-and-runtime#dockerfile-commands-and-runtime
+CMD ["/bin/bash", "-c", "/startup.sh"]
