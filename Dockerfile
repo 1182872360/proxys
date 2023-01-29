@@ -12,7 +12,7 @@ RUN set -eux \
     && apk update \
     && apk add --no-cache tzdata bash nginx gettext
 
-COPY ./heroku/startup.sh /
+COPY ./startup.sh /
 RUN chmod +x /startup.sh
 
 # https://devcenter.heroku.com/articles/container-registry-and-runtime#dockerfile-commands-and-runtime
