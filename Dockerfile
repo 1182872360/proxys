@@ -10,9 +10,10 @@ COPY ./nginx.template.conf ./
 
 RUN set -eux \
     && apk update \
-    && apk add --no-cache tzdata bash nginx gettext
+    && apk add --no-cache tzdata bash nginx gettext \
+    && python -m pip install -r /app/requirements.txt
 
-COPY ./startup.sh /
+COPY ./heroku/startup.sh /
 RUN chmod +x /startup.sh
 
 # https://devcenter.heroku.com/articles/container-registry-and-runtime#dockerfile-commands-and-runtime
