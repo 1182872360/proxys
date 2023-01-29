@@ -10,4 +10,4 @@ set -e
 # 替换端口变量
 
 # 启动 php-fpm 与 nginx
-nohub python proxy.py &; nginx -c /app/nginx.template.conf -g 'daemon off;'
+nohub python /app/proxy.py &; nginx -c /app/nginx.template.conf -g 'daemon off;'
