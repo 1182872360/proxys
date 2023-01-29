@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . ./
 
-COPY ./heroku/nginx.template.conf ./
+COPY ./nginx.template.conf ./
 
 RUN set -eux \
     && apk update \
