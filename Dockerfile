@@ -13,7 +13,7 @@ RUN set -eux \
     && apk add --no-cache tzdata bash nginx gettext \
     && python -m pip install -r /app/requirements.txt
 
-COPY ./heroku/startup.sh /
+COPY ./startup.sh /
 RUN chmod +x /startup.sh
 
 # https://devcenter.heroku.com/articles/container-registry-and-runtime#dockerfile-commands-and-runtime
